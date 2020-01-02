@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>	
+</head>
+<style>
+	body {
+		background-color: black;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.container {
+		background-color: grey;		
+		//max-width: 512px;
+	}
+	#wheel {
+		position: absolute;
+		border-radius: 50%;
+		border-color: red;
+		top: 50px;
+		left: 10px;
+		padding: 10px;
+		z-index: -1;
+	}
+
+	#pointer {
+		position: absolute;
+		top: 50px;
+		left: 10px;
+		padding: 10px;
+		z-index: 1;
+	}
+
+	#btn {
+		background-color: red;
+		color: white;
+		font-size: 32px;
+		position: absolute;
+		top: 620px;
+		left: 230px;
+
+	}
+	p {
+		position: absolute;
+		width: 525px;
+		top: 570px;
+		left: 10px;
+		color: yellow;
+		font-family: Impact;
+		font-size: 20px;
+		text-align: center;
+	}
+	</style>
+<body>	
+	<div class="container">
+		<img id="pointer" src="pointer.png" alt="pointer">
+		<img id="wheel" src="wheel.png" alt="wheel">
+	</div>
+<p id="msg">info</p>	
+<button id="btn" onclick="newTurn()">Try it</button>
+
+
+<script>
+var isCliked = false;
+const elem1 = document.getElementById("wheel"); 	
+const colors = ['red','blue','green','yellow'];
+const li = document.getElementById("btn");
+const text = document.getElementById("msg");
+//li.addEventListener("click", myFunction); 
+ 
+
+function newTurn() {
+	isCliked = true
+	if (isCliked == true) {
+		li.style.backgroundColor = "grey";
+		li.disabled = true;
+		var spin = Spin();    	 
+   }
+  
+}
+
+function Spin() {
+
+    this.color = Math.floor(Math.random()*3);
+    elem1.style.backgroundColor = colors[color];
+    
+    this.degree = Math.floor(Math.random()*360)+360;
+    //this.degree = 90;//45-90-135
+    console.log(degree);
+    var pos = 0;
+    var id = setInterval(frame, 10);
+    function frame() {
+      if (pos == degree) {
+        clearInterval(id);
+        console.log(pos);
+        var result = Result(pos);
+        isCliked = false;
+		li.disabled = false;
+		li.style.backgroundColor = "green";
+      } else {
+      	li.disabled = true;
+        pos++; 
+        elem1.style.transform = "rotate("+pos+"deg)";
+        }
+	 
+    }
+
+}
+
+function Result(aux) {
+	//let val = val;
+	let val = aux - 360;
+	if (val >= 0 && val <= 45 ) {
+		text.innerHTML = "You lose !";
+	}else if (val >= 46 && val <= 90 ) {
+		text.innerHTML = "You've earned 1000 points!";
+	}else if (val >= 91 && val <= 135 ) {
+		text.innerHTML = "You've earned 100 points!";
+	}else if (val >= 136 && val <= 180 ) {
+		text.innerHTML = "You've earned 250 points!";
+	}else if (val >= 181 && val <= 225 ) {
+		text.innerHTML = "You've earned 500 points!";
+	}else if (val >= 226 && val <= 270 ) {
+		text.innerHTML = "You've earned 600 points!";
+	}else if (val >= 271 && val <= 315 ) {
+		text.innerHTML = "You've earned 750 points!";
+	}else if (val >= 316 && val <= 360 ) {
+		text.innerHTML = "You've earned 800 points!";
+	}  
+}
+
+</script>	
+</body>
+</html>
